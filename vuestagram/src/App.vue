@@ -40,16 +40,23 @@ export default {
   name: 'App',
   data(){
     return {
-      write: '',
       step: 0,
       instaData: InstaData,
       reqestCounter: 0,
+      write: '',
       image : '',
+      filter: '',
     }
   },
   components: {
     Container: ContainerVue,
   },
+  mounted(){
+    this.emitter.on('boxClicked', (a)=>{
+      this.filter = a;
+    });
+  },
+  
   methods: {
     more(){
       axios.get(`https://codingapple1.github.io/vue/more${this.reqestCounter}.json`).then((result)=>{
@@ -67,6 +74,7 @@ export default {
       console.log(url);
       this.step = 1;
     },
+    
     publish(){
       var poster = {
         name: "Kim Hyun",
@@ -76,7 +84,7 @@ export default {
         date: "May 15",
         liked: false,
         content: this.write,
-        filter: "perpetua"
+        filter: this.filter,
       };
       this.instaData.unshift(poster);
       this.step = 0;

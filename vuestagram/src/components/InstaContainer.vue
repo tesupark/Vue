@@ -4,11 +4,11 @@
   </div>
   <!-- 필터선택페이지 -->
   <div v-if="step == 1">
-    <div class="upload-image" :style="`background-image:url(${image})`"></div>
+    <div :class="filter" class="upload-image" :style="`background-image:url(${image})`"></div>
     <div class="filters">
       <FilterBox v-for="(item, index) in filters" :key="index" :image="image" :filters="item">
-        {{item}}
-        <template v-slot:a>
+        <!-- {{item}} -->
+        <!-- <template v-slot:a>
           <div>
             
           </div>
@@ -17,7 +17,7 @@
           <div>
             
           </div>
-        </template>
+        </template> -->
       </FilterBox> 
       <!-- slot으로 하위컴포넌트에 데이터 전송하기 -->
     </div>
@@ -25,7 +25,7 @@
 
 <!-- 글작성페이지 -->
   <div  v-if="step == 2">
-    <div class="upload-image" :style="`background-image:url(${image})`"></div>
+    <div :class="filter" class="upload-image" :style="`background-image:url(${image})`"></div>
     <div class="write">
       <textarea @input="$emit('write', $event.target.value)" class="write-box">write!</textarea>
     </div>
@@ -39,13 +39,19 @@ import FilterBoxVue from './FilterBox.vue'
 export default {
   data(){
     return{
-      filters: [ "aden", "_1977", "brannan", "brooklyn", "clarendon", "earlybird", "gingham", "hudson", "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"]
+      filters: [ "aden", "_1977", "brannan", "brooklyn", "clarendon", "earlybird", "gingham", "hudson", "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"],
+      filter: '',
     }
   },  
   props: {
     image: String,
     step: Number,
     instaData: Array,
+  },
+  mounted(){
+    this.emitter.on('boxClicked', (a)=>{
+      this.filter = a;
+    });
   },
   components: {
     Post: PostVue,
