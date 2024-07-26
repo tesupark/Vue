@@ -11,6 +11,8 @@
 
   <Container :instaData="instaData" />
 
+  <button @click="more">더보기</button>
+
   <div class="footer">
     <ul class="footer-button-plus">
       <input type="file" id="file" class="inputfile" />
@@ -22,17 +24,29 @@
 <script>
 import ContainerVue from './components/InstaContainer.vue'
 import InstaData from './assets/instadata.js'
+import axios from 'axios'
 
 export default {
   name: 'App',
   data(){
     return {
       instaData: InstaData,
+      reqestCounter: 0,
     }
   },
   components: {
     Container: ContainerVue,
-  }
+  },
+  methods: {
+    more(){
+      axios.get(`https://codingapple1.github.io/vue/more${this.reqestCounter}.json`).then((result)=>{
+        console.log(result.data);
+        this.instaData.push(result.data);
+        this.reqestCounter++;
+      }).catch((rejected)=>{console.log(rejected);
+      this.requestCounter--;})
+    }
+  },
 }
 </script>
 
