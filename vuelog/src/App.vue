@@ -34,12 +34,27 @@
     </form>
   </div>
 </nav>
+<router-link to="/">홈 페이지</router-link>
+<router-link to="/list">리스트 페이지</router-link>
+
+<div class="mt-4">
+  <router-view :블로그글="블로그글"></router-view>
+</div>
+
+
+<!-- <BlogLists :블로그글="블로그글"/> -->
 </template>
 
 <script>
+import Blogdata from './assets/blog.js';
 
 export default {
   name: 'App',
+  data(){
+    return{
+      블로그글 : Blogdata,
+    }
+  },
   components: {
   }
 }
