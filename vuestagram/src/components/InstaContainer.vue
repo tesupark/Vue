@@ -30,11 +30,15 @@
       <textarea @input="$emit('write', $event.target.value)" class="write-box">write!</textarea>
     </div>
   </div>
+  <div  v-if="step == 3">
+    <MyPage/>
+  </div>
 </template>
 
 <script>
 import PostVue from './InstaPost.vue';
 import FilterBoxVue from './FilterBox.vue'
+import MyPageVue from './MyPage.vue';
 
 export default {
   data(){
@@ -56,6 +60,7 @@ export default {
   components: {
     Post: PostVue,
     FilterBox: FilterBoxVue,
+    MyPage: MyPageVue,
   }
 }
 </script>
