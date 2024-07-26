@@ -23,7 +23,7 @@
 
   <button @click="more">더보기</button>
 
-  <div class="footer">
+  <div v-if="step == 0" class="footer">
     <ul class="footer-button-plus">
       <input @change="upload" accept="image/*" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>

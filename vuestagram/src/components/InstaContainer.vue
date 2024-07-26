@@ -6,11 +6,20 @@
   <div v-if="step == 1">
     <div class="upload-image" :style="`background-image:url(${image})`"></div>
     <div class="filters">
-      <div class="filter-1"></div>
-      <div class="filter-1"></div>
-      <div class="filter-1"></div>
-      <div class="filter-1"></div>
-      <div class="filter-1"></div>
+      <FilterBox v-for="(item, index) in filters" :key="index" :image="image" :filters="item">
+        {{item}}
+        <template v-slot:a>
+          <div>
+            
+          </div>
+        </template>
+        <template v-slot:b>
+          <div>
+            
+          </div>
+        </template>
+      </FilterBox> 
+      <!-- slot으로 하위컴포넌트에 데이터 전송하기 -->
     </div>
   </div>
 
@@ -25,8 +34,14 @@
 
 <script>
 import PostVue from './InstaPost.vue';
+import FilterBoxVue from './FilterBox.vue'
 
 export default {
+  data(){
+    return{
+      filters: [ "aden", "_1977", "brannan", "brooklyn", "clarendon", "earlybird", "gingham", "hudson", "inkwell", "kelvin", "lark", "lofi", "maven", "mayfair", "moon", "nashville", "perpetua", "reyes", "rise", "slumber", "stinson", "toaster", "valencia", "walden", "willow", "xpro2"]
+    }
+  },  
   props: {
     image: String,
     step: Number,
@@ -34,6 +49,7 @@ export default {
   },
   components: {
     Post: PostVue,
+    FilterBox: FilterBoxVue,
   }
 }
 </script>
