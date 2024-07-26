@@ -48,7 +48,7 @@ import axios from 'axios'
 import { mapMutations, mapState } from 'vuex'
 
 // 컴포넌트, 데이터 많을 때 쓰는건 Vuex
-
+//PWA : 웹사이트를 앱으로 발행할 수 있게함.
 export default {
   name: 'App',
   data(){
