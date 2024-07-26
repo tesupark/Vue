@@ -9,9 +9,15 @@
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
-  <button @click="step = 0">포스트 보여주기</button>
+
+  <h4>안녕 {{ $store.state.name }}</h4>
+
+  <!-- vuex 국룰 : 컴포넌트 안에서 직접 수정하기 금지. 다수의 컴포넌트에서 사용하면 삑나게 하는놈 못찾을거 아녀 데이터 수정하는 법칙 정해서 해야함. 
+  state<button @click="$store.state.name = 'park'">박버튼</button> -->
+
+  <!-- <button @click="step = 0">포스트 보여주기</button>
   <button @click="step = 1">필터선택페이지</button>
-  <button @click="step = 2">게시물 생성</button>
+  <button @click="step = 2">게시물 생성</button> -->
 
   <Container @write="write = $event" :instaData="instaData" :step="step" :image="image" />
   <!-- <div v-if="step ==0">내용0</div>
@@ -35,6 +41,8 @@
 import ContainerVue from './components/InstaContainer.vue'
 import InstaData from './assets/instadata.js'
 import axios from 'axios'
+
+// 컴포넌트, 데이터 많을 때 쓰는건 Vuex
 
 export default {
   name: 'App',
