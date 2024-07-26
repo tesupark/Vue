@@ -4,18 +4,28 @@
       <li>Cancel</li>
     </ul>
     <ul class="header-button-right">
-      <li>Next</li>
+      <li v-if="step == 1" @click="step++">Next</li>
+      <li v-if="step == 2" @click="publish">발행</li>
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
+  <button @click="step = 0">포스트 보여주기</button>
+  <button @click="step = 1">필터선택페이지</button>
+  <button @click="step = 2">게시물 생성</button>
 
-  <Container :instaData="instaData" />
+  <Container @write="write = $event" :instaData="instaData" :step="step" :image="image" />
+  <!-- <div v-if="step ==0">내용0</div>
+  <div v-if="step ==1">내용1</div>
+  <div v-if="step ==2">내용2</div>
+  <button @click="step = 0">버튼0</button>
+  <button @click="step = 1">버튼1</button>
+  <button @click="step = 2">버튼2</button> -->
 
   <button @click="more">더보기</button>
 
   <div class="footer">
     <ul class="footer-button-plus">
-      <input type="file" id="file" class="inputfile" />
+      <input @change="upload" accept="image/*" type="file" id="file" class="inputfile" />
       <label for="file" class="input-plus">+</label>
     </ul>
  </div>
@@ -30,8 +40,11 @@ export default {
   name: 'App',
   data(){
     return {
+      write: '',
+      step: 0,
       instaData: InstaData,
       reqestCounter: 0,
+      image : '',
     }
   },
   components: {
@@ -45,6 +58,28 @@ export default {
         this.reqestCounter++;
       }).catch((rejected)=>{console.log(rejected);
       this.requestCounter--;})
+    },
+    upload(e){
+      let a = e.target.files;
+      console.log(a[0].type);
+      let url = URL.createObjectURL(a[0]);// 변수를 URL로 만들 수 있음.
+      this.image = url;
+      console.log(url);
+      this.step = 1;
+    },
+    publish(){
+      var poster = {
+        name: "Kim Hyun",
+        userImage: "https://picsum.photos/100?random=3",
+        postImage: this.image,
+        likes: 36,
+        date: "May 15",
+        liked: false,
+        content: this.write,
+        filter: "perpetua"
+      };
+      this.instaData.unshift(poster);
+      this.step = 0;
     }
   },
 }
