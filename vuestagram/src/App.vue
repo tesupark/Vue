@@ -9,14 +9,14 @@
     </ul>
     <img src="./assets/logo.png" class="logo" />
   </div>
-
   <h4>안녕 {{ $store.state.name }}</h4>
+  <p>{{name}}{{age}}{{likes}}{{myName}}</p>
   <h4>나이는 {{ $store.state.age }}</h4>
   <p>{{ $store.state.more}}</p>
   <button @click="$store.dispatch('getData')">더보기</button>
   <!-- vuex 국룰 : 컴포넌트 안에서 직접 수정하기 금지. 다수의 컴포넌트에서 사용하면 삑나게 하는놈 못찾을거 아녀 데이터 수정하는 법칙 정해서 해야함. 
   state-->
-  <button @click="$store.commit('changeName')">박버튼</button> 
+  <button @click="changeName()">박버튼</button> 
   <button @click="$store.commit('addOneAge', 10)">나이버튼</button>
 
   <!-- <button @click="step = 0">포스트 보여주기</button>
@@ -45,6 +45,7 @@
 import ContainerVue from './components/InstaContainer.vue'
 import InstaData from './assets/instadata.js'
 import axios from 'axios'
+import { mapMutations, mapState } from 'vuex'
 
 // 컴포넌트, 데이터 많을 때 쓰는건 Vuex
 
@@ -58,6 +59,7 @@ export default {
       write: '',
       image : '',
       filter: '',
+      counter: 0,
     }
   },
   components: {
@@ -68,8 +70,26 @@ export default {
       this.filter = a;
     });
   },
+  // 처음 사이트가 브라우저에서 실행되면, 처음 실행한 값을 간직함. methods에서 선언한 넘들은 사용할 때마다 실행됨. 절약할 수 있음 ^오^
+  computed: {
+    name(){
+      return this.$store.state.name
+    },age(){
+      return this.$store.state.age
+    },
+    //vuex store.state 한번에 꺼내쓰려면 mapState쓰면됨.
+    ...mapState(['name', 'age', 'likes']),
+    //내가 작명한 이름으로 꺼내쓰고 싶으면 오브젝트형 쓰면됨.
+    ...mapState({ myName :'name', })
+  },
   
   methods: {
+    //ajax 요청은 ...mapActions쓰면됨.
+    //store에 있는 함수 불러오고 싶으면 ...mapMutations 쓰면 됨.
+    ...mapMutations(['setMore', 'changeName']),
+    now(){
+      return new Date();
+    },
     more(){
       axios.get(`https://codingapple1.github.io/vue/more${this.reqestCounter}.json`).then((result)=>{
         console.log(result.data);
